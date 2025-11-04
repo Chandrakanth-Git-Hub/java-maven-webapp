@@ -43,12 +43,21 @@ pipeline {
     }
 
     post {
-        success {
-            echo "Build succeeded and deployed!"
-        }
-        failure {
-            echo "Build failed!"
-        }
+    success {
+        emailext (
+            subject: "Build Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: "Good news! The build was successful.",
+            to: "chandubhavi123@gmail.com"
+        )
     }
+    failure {
+        emailext (
+            subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: "Oops! The build failed. Please check Jenkins logs.",
+            to: "chandubhavi123@gmail.com"
+        )
+    }
+}
+
 }
 
